@@ -5,11 +5,50 @@
 {% block body %}
     <h1>Bienvenido a notas de {{usuario.nombre}}</h1>
 
+    <table class="table">
+    <tr>
+        <td>Id</td>
+        <td>Titulo</td>
+        <td>Contenido</td>
+    </tr>
     {% for nota in notas %}
-
-        <p>{{nota.contenido}}</p>
-
+    
+        <tr>
+            <td>{{nota.id}}</td>
+            <form action="/modificar" method="POST">
+                <input type="hidden" name="id" value="{{nota.id}}">
+                <td><input class="form-control" type="text" name="nomModif" value="{{nota.nombreNota}}"/></td>
+                <td><input class="form-control" type="text" name="contenModif" value="{{nota.contenido}}"/></td>
+                <td><input class="btn btn-primary" type="submit" name="sbmtModif" value="MODIFICAR"></td>
+            </form>
+            <td><a href="eliminar/{{nota.id}}">Eliminar</a></td>
+        </tr>
     {% else %}
-        <p>No se han encontrado notas.</p>
+        <p>No se han encontrado notas.</p> 
     {% endfor %}
+        <form action="/crear" method="post">
+            <tr>
+                <td/>
+                <td><input type="text" name="inpText" class="form-control" placeholder="Titulo"/></td>
+                <td><input type="text" name="inpContenido" class="form-control" placeholder="Contenido"/></td>
+                <td colspan="2"><input type="submit" name="inpCrear" class="btn btn-primary" value="ENVIAR"/></td>
+            </tr>
+        <form>
+    </table>
+
+    {% if usuario is empty %}
+        <a href="/login">Iniciar sesión</a>
+    {% endif %}
+
+    {% if app.session.flashbag.has('error') %}
+        <div class="alert alert-danger">
+            {{ app.session.flashbag.get('error')[0] }}
+        </div>
+    {% endif %}
+
+    {% if app.session.flashbag.has('success') %}
+        <div class="alert alert-success">
+            {{ app.session.flashbag.get('success')[0] }}
+        </div>
+    {% endif %}
 {% endblock %}
