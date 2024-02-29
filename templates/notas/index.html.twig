@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index notas{% endblock %}
+
+{% block body %}
+    <h1>Bienvenido a notas de {{usuario.nombre}}</h1>
+
+    {% for nota in notas %}
+
+        <p>{{nota.contenido}}</p>
+
+    {% else %}
+        <p>No se han encontrado notas.</p>
+    {% endfor %}
+{% endblock %}
